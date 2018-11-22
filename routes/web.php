@@ -12,6 +12,16 @@
 */
 
 Route::get('/', function () {
+    $query = http_build_query([
+        'client_id' => 3,
+        'redirect_url' => 'http://api.test/callback',
+        'response_type' => 'code',
+        'scope' => ''
+    ]);
+
+    return redirect("http://api.test/oauth/authorize?$query");
+
+    dd($query);
     return view('welcome');
 });
 
