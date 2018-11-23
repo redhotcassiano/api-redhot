@@ -13,7 +13,10 @@
 
 use Illuminate\Http\Request;
 
-Route::get('/', function () {    
+Route::get('/', function () {
+
+    return view('welcome');
+    
     $query = http_build_query([
         'client_id' => 3,
         'redirect_url' => 'http://api.test/callback',
@@ -24,7 +27,7 @@ Route::get('/', function () {
     return redirect("http://api.test/oauth/authorize?$query");
 
     dd($query);
-    return view('welcome');
+
 });
 
 Route::get('callback', function(Request $request){
@@ -41,7 +44,7 @@ Route::get('callback', function(Request $request){
     ]);
 
     return json_decode((string) $response->getBody(), true);
-   
+
 });
 
 Auth::routes();
