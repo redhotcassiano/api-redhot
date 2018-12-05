@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 Route::get('/', function () {
 
     return view('welcome');
-    
+
     $query = http_build_query([
         'client_id' => 3,
         'redirect_url' => 'http://api.test/callback',
