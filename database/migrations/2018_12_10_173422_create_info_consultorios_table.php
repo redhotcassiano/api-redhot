@@ -15,6 +15,10 @@ class CreateInfoConsultoriosTable extends Migration
     {
         Schema::create('info_consultorios', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
+            $table->string('description');
+            $table->unsignedInteger('consultorios_id');
+            $table->foreign('consultorios_id')->references('id')->on('consultorios')->onDelete('cascade');
             $table->timestamps();
         });
     }
