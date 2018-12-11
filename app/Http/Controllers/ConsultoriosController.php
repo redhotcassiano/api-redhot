@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Models\Consultorios;
 use Illuminate\Http\Request;
 
@@ -35,7 +36,21 @@ class ConsultoriosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $consultorio = new Consultorios;
+
+        $user = User::find($request->user_id);
+
+        if (isset($user->id)) {
+            $consultorio->name = $request->name;
+            $consultorio->razao_social = $request->razao_social;
+            $consultorio->active = $request->active;
+            $consultorio->user_id = $user->id;
+
+            $consultorio->save();
+        }
+
+
+
     }
 
     /**
