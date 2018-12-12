@@ -61,9 +61,11 @@ class ConsultoriosController extends Controller
      * @param  \App\Models\Consultorios  $consultorios
      * @return \Illuminate\Http\Response
      */
-    public function show(Consultorios $consultorios)
+    public function show(Consultorios $consultorios, $id)
     {
-        //
+        $result = $consultorios::find($id);
+
+        return response()->json($result, 200);
     }
 
     /**
@@ -84,9 +86,22 @@ class ConsultoriosController extends Controller
      * @param  \App\Models\Consultorios  $consultorios
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Consultorios $consultorios)
+    public function update(Request $request, Consultorios $consultorios, $id)
     {
-        //
+        $consultorio = $consultorios::find($id);
+
+        $consultorio->nome = $request->nome;
+        $consultorio->razao_social = $request->razao_social;
+        $consultorio->active = $request->active;
+
+        if($consultorio->save()){
+            return response()->json($consultorio, 200);
+        }else{
+            return response()->json([
+                'message' => 'Erro ao Editar o Consultorio {$request->nome}!'
+            ], 202);
+        }
+
     }
 
     /**
@@ -95,8 +110,24 @@ class ConsultoriosController extends Controller
      * @param  \App\Models\Consultorios  $consultorios
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Consultorios $consultorios)
+    public function destroy(Consultorios $consultorios, $id)
     {
-        //
+        $consultorio = $consultorios::find($id);
+
+        if(isset($consultorio)) {
+            if ($consultorio->delete()) {
+                return response()->json([
+                    'message' => 'Deletado o Consultorio {$consultorio->nome}!'
+                ], 200);
+            }else{
+                return response()->json([
+                    'message' => 'Erro ao Deletar o Consultorio {$consultorio->nome}!'
+                ], 202);
+            }
+        }else{
+            return response()->json([
+                'message' => 'Não Existe esse Consultorio!'
+            ], 202);
+        }
     }
 }
