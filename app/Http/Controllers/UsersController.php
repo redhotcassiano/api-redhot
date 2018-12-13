@@ -45,7 +45,8 @@ class UsersController extends Controller
             'name' => ['required', 'string', 'max:255'],
              'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
              'password' => ['required', 'string', 'min:6'],
-             'type_acl' => ['required', 'string']
+             'type_acl' => ['required', 'string'],
+             'profile_id' => ['required', 'integer']
         ]);
 
         if(isset($validatedData->message)){
@@ -58,6 +59,7 @@ class UsersController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->type_acl = $request->type_acl;
+        $user->profile_id = $request->profile_id;
 
         $user->save();
 
@@ -73,7 +75,7 @@ class UsersController extends Controller
      */
     public function show(User $users, $id)
     {
-        $result = $users::find($id);
+        $result = $users::find($id)->profile;
 
         return response()->json($result, 200);
     }
@@ -101,7 +103,8 @@ class UsersController extends Controller
         $validatedData = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'type_acl' => ['required', 'string']
+            'type_acl' => ['required', 'string'],
+            'profile_id' => ['required', 'integer']
         ]);
 
         if(isset($validatedData->message)){
@@ -113,6 +116,7 @@ class UsersController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->type_acl = $request->type_acl;
+        $user->profile_id = $request->profile_id;
 
         if($user->save()){
             return response()->json($user, 200);

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\InfoConsultorios;
-use App\Models\Consultorios;
+use App\Models\Profiles;
 use Illuminate\Http\Request;
 
-class InfoConsultoriosController extends Controller
+class ProfilesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +14,18 @@ class InfoConsultoriosController extends Controller
      */
     public function index()
     {
-        return InfoConsultorios::all();
+
+        $result = Profiles::all();
+
+        $profiles = [];
+
+        foreach ($result as $key => $profile) {
+            $profiles[$key] = $profile;
+
+            $profiles[$key]['users'] = Profiles::find($profile->id)->users;
+        }
+
+        return response()->json($profiles, 200);
     }
 
     /**
@@ -36,32 +46,27 @@ class InfoConsultoriosController extends Controller
      */
     public function store(Request $request)
     {
-        $infoConsultorio = new InfoConsultorios;
+        $profile = new Profiles;
 
-        $consultorio = Consultorios::find($request->consultorios_id);
+        $profile->name = $request->name;
+        $profile->type = $request->type;
+        $profile->active = $request->active;
 
-        if (isset($consultorio->id)) {
-            $infoConsultorio->name = $request->name;
-            $infoConsultorio->description = $request->description;
-            $infoConsultorio->consultorios_id = $consultorio->id;
+        $profile->save();
 
-            $infoConsultorio->save();
+        return response($profile);
 
-            return response($infoConsultorio);
-        }else{
-            return response()->json($consultorio, 200);
-        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\InfoConsultorios  $infoConsultorios
+     * @param  \App\Models\Profiles  $profiles
      * @return \Illuminate\Http\Response
      */
-    public function show(InfoConsultorios $infoConsultorios)
+    public function show(Profiles $profiles)
     {
-        $result = $infoConsultorios::find($id);
+        $result = $profiles::find($id);
 
         return response()->json($result, 200);
     }
@@ -69,30 +74,31 @@ class InfoConsultoriosController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\InfoConsultorios  $infoConsultorios
+     * @param  \App\Models\Profiles  $profiles
      * @return \Illuminate\Http\Response
      */
-    public function edit(InfoConsultorios $infoConsultorios)
+    public function edit(Profiles $profiles)
     {
-        //
+
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\InfoConsultorios  $infoConsultorios
+     * @param  \App\Models\Profiles  $profiles
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, InfoConsultorios $infoConsultorios)
+    public function update(Request $request, Profiles $profiles)
     {
-        $infoConsultorio = $infoConsultorios::find($id);
+        $profile = $profiles::find($id);
 
-        $infoConsultorio->name = $request->name;
-        $infoConsultorio->description = $request->description;
+        $profile->name = $request->name;
+        $profile->type = $request->type;
+        $profile->active = $request->active;
 
-        if($infoConsultorio->save()){
-            return response()->json($infoConsultorio, 200);
+        if($profile->save()){
+            return response()->json($profile, 200);
         }else{
             return response()->json([
                 'message' => 'Erro ao Editar o Consultorio {$request->nome}!'
@@ -103,17 +109,17 @@ class InfoConsultoriosController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\InfoConsultorios  $infoConsultorios
+     * @param  \App\Models\Profiles  $profiles
      * @return \Illuminate\Http\Response
      */
-    public function destroy(InfoConsultorios $infoConsultorios)
+    public function destroy(Profiles $profiles)
     {
-        $infoConsultorio = $infoConsultorios::find($id);
+        $profile = $profiles::find($id);
 
-        if(isset($infoConsultorio)) {
-            if ($infoConsultorio->delete()) {
+        if(isset($profile)) {
+            if ($profile->delete()) {
                 return response()->json([
-                    'message' => 'Deletado o Consultorio {$consultorio->nome}!'
+                    'message' => 'Deletado o Perfil {$consultorio->nome}!'
                 ], 200);
             }else{
                 return response()->json([

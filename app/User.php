@@ -33,4 +33,10 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Consultorios');
     }
+
+    public function profile()
+    {
+        return $this->belongsTo('App\Models\Profiles', 'profiles_id');
+    }
+
 }

@@ -50,9 +50,6 @@ class ConsultoriosController extends Controller
 
             return response($consultorio);
         }
-
-
-
     }
 
     /**

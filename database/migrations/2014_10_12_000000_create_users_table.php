@@ -13,6 +13,8 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('users');
+
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
@@ -20,6 +22,8 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('type_acl')->nullable();
+            $table->unsignedInteger('profile_id');
+            $table->foreign('profiles_id')->references('id')->on('profiles');
             $table->rememberToken();
             $table->timestamps();
         });
