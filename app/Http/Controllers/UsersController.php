@@ -17,7 +17,16 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = collect(User::all());
+        $arrUsers = User::all();
+
+        $listUsers = [];
+
+        foreach ($arrUsers as $key => $user) {
+            $listUsers[$key] = $user;
+            $listUsers[$key]['profile'] = User::find($user->id)->profile;
+        }
+
+        $users = collect($listUsers);
 
         return response()->json($users->all(), 200);
     }
@@ -75,9 +84,16 @@ class UsersController extends Controller
      */
     public function show(User $users, $id)
     {
-        $result = $users::find($id)->profile;
+        if(!empty($users::find($id))) {
+            $result = $users::find($id);
+            $result['profile'] = $users::find($id)->profile;
 
-        return response()->json($result, 200);
+            return response()->json($result, 200);
+        }else{
+            return response()->json([
+                'message' => 'Não Existe esse Usuario no Sistema.'
+            ], 200);
+        }
     }
 
     /**
