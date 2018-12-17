@@ -81,7 +81,6 @@ class ConsultasController extends Controller
     {
         if(!empty($consultas::find($id))) {
             $result = $consultas::find($id);
-            $result['profile'] = $consultas::find($result->id)->profile;
             $result['cliente'] = $consultas::find($result->id)->client;
             $result['doctor'] = $consultas::find($result->id)->doctor;
             $result['consultorio'] = $consultas::find($result->id)->consultorio;
