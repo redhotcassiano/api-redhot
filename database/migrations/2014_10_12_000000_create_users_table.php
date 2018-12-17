@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('type_acl')->nullable();
-            $table->unsignedInteger('profile_id');
+            $table->unsignedInteger('profiles_id');
             $table->foreign('profiles_id')->references('id')->on('profiles');
             $table->rememberToken();
             $table->timestamps();
