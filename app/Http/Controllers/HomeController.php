@@ -24,8 +24,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-
-        if(Auth::user()->type_acl == "ADM") {
+        /*
+            tipos de ACL
+            SADM = Super Admin;
+            ADM = Adimin;
+            PR = Proprietario;
+            PF = Profissional;
+            CL = Cliente;
+        */
+        if(Auth::user()->type_acl == "SADM") {
             return view('home_adm');
         }
 

@@ -19,4 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['middleware' => ['auth:api']], function () {
     Route::resource('consultorios', 'ConsultoriosController');
+    Route::resource('users', 'UsersController');
+    Route::resource('info-consultorios', 'InfoConsultoriosController');
+    Route::resource('profiles', 'ProfilesController');
 });

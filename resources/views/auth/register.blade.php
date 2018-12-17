@@ -57,7 +57,8 @@
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="type_acl" type="hidden" value="USER" name="type_acl">
+                                <input id="type_acl" type="hidden" value="PR" name="type_acl">
+                                <input type="hidden" name="profile_id" id="profile_id" value="3">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                             </div>
                         </div>

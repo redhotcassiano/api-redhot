@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInfoConsultoriosTable extends Migration
+class CreateProfilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateInfoConsultoriosTable extends Migration
      */
     public function up()
     {
-        Schema::create('info_consultorios', function (Blueprint $table) {
+        Schema::create('profiles', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('description');
-            $table->unsignedInteger('consultorios_id');
-            $table->foreign('consultorios_id')->references('id')->on('consultorios')->onDelete('cascade');
+            $table->string('name', 250)->nullable();
+            $table->string('type', 250)->nullable();
+            $table->boolean('active')->nullable()->default(true);
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateInfoConsultoriosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('info_consultorios');
+        Schema::dropIfExists('profiles');
     }
 }

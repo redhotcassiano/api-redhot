@@ -28,4 +28,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function consultorios()
+    {
+        return $this->hasMany('App\Models\Consultorios');
+    }
+
+    public function profile()
+    {
+        return $this->belongsTo('App\Models\Profiles', 'profiles_id');
+    }
+
 }
