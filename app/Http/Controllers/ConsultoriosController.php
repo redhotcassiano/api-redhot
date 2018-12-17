@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Models\Consultorios;
+use App\Models\Consultas;
 use Illuminate\Http\Request;
 
 class ConsultoriosController extends Controller
@@ -15,7 +16,32 @@ class ConsultoriosController extends Controller
      */
     public function index()
     {
-        return Consultorios::all();
+        //return Consultorios::all();
+
+        $arrConsultorios = Consultorios::all();
+
+        $listConsultorios = [];
+
+        foreach ($arrConsultorios as $key => $consultorio) {
+            $listConsultorios[$key] = $consultorio;
+
+            $arrConsultas = Consultorios::find($consultorio->id)->consultas;
+
+            $listConsultas = [];
+
+            foreach ($arrConsultas as $key => $consulta) {
+                $listConsultas[$key] = $consulta;
+                $listConsultas[$key]['cliente'] = Consultas::find($consulta->id)->client;
+                $listConsultas[$key]['doctor'] = Consultas::find($consulta->id)->doctor;
+            }
+
+            $consultas = collect($listConsultas);
+            $listConsultorios[$key]['consultas'] = $consultas->all();
+        }
+
+        $consultorios = collect($listConsultorios);
+
+        return response()->json($consultorios->all(), 200);
     }
 
     /**

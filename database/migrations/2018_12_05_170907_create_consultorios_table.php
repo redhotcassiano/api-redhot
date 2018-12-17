@@ -20,7 +20,6 @@ class CreateConsultoriosTable extends Migration
             $table->boolean('active')->nullable()->default(true);
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->rememberToken();
             $table->timestamps();
         });
     }
