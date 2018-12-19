@@ -39,4 +39,9 @@ class User extends Authenticatable
         return $this->belongsTo('App\Models\Profiles', 'profiles_id');
     }
 
+    public function consultas()
+    {
+        return $this->hasMany('App\Models\Consultas');
+    }
+
 }

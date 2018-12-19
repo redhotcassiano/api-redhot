@@ -22,4 +22,5 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::resource('users', 'UsersController');
     Route::resource('info-consultorios', 'InfoConsultoriosController');
     Route::resource('profiles', 'ProfilesController');
+    Route::resource('consultas', 'ConsultasController');
 });
