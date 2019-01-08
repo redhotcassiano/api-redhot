@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\User;
 use App\Models\Consultorios;
 use Illuminate\Support\Facades\Validator;
@@ -168,6 +169,15 @@ class UsersController extends Controller
             return response()->json([
                 'message' => 'Não Existe esse Consultorio!'
             ], 202);
+        }
+    }
+
+    public function login(Request $request, User $users)
+    {
+        if (Auth::guard('web')->attempt(['email' => $request['email'], 'password' => $request['password']])) {
+            return response()->json(Auth::user(), 200);
+        }else{
+            return response()->json(['message'=>'error ao logar.'], 401);
         }
     }
 }
