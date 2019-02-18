@@ -16,4 +16,9 @@ class Consultorios extends Model
         return $this->hasMany('App\Models\Consultas');
     }
 
+    public function info()
+    {
+        return $this->belongsTo('App\Models\InfoConsultorios', 'consultorios_id');
+    }
+
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Models\Consultorios;
 use App\Models\Consultas;
+use App\Models\InfoConsultorios;
 use Illuminate\Http\Request;
 
 class ConsultoriosController extends Controller
@@ -37,6 +38,7 @@ class ConsultoriosController extends Controller
 
             $consultas = collect($listConsultas);
             $listConsultorios[$key]['consultas'] = $consultas->all();
+            $listConsultorios[$key]['info'] = Consultorios::find($consultorio->id)->info;
         }
 
         $consultorios = collect($listConsultorios);
@@ -121,7 +123,7 @@ class ConsultoriosController extends Controller
             return response()->json($consultorio, 200);
         }else{
             return response()->json([
-                'message' => 'Erro ao Editar o Consultorio {$request->nome}!'
+                'message' => 'Erro ao Editar o Consultorio '.$request->nome.'!'
             ], 202);
         }
 
@@ -140,11 +142,11 @@ class ConsultoriosController extends Controller
         if(isset($consultorio)) {
             if ($consultorio->delete()) {
                 return response()->json([
-                    'message' => 'Deletado o Consultorio {$consultorio->nome}!'
+                    'message' => 'Deletado o Consultorio '.$consultorio->nome.'!'
                 ], 200);
             }else{
                 return response()->json([
-                    'message' => 'Erro ao Deletar o Consultorio {$consultorio->nome}!'
+                    'message' => 'Erro ao Deletar o Consultorio '.$consultorio->nome.'!'
                 ], 202);
             }
         }else{
